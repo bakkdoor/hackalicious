@@ -1,11 +1,23 @@
+(defn size (list)
+  (. list size))
+
+(defn empty? (list)
+  (= 0 (size list)))
+
+(defn first (list)
+  (. list first))
+
+(defn rest (list)
+  (. list rest))
+
+(defn cons (x list)
+  (. list unshift x))
+
 (defn map (func list)
   (if (empty? list)
     []
     (cons (func (first list))
           (map func (rest list)))))
-
-(defn size (list)
-  (. list size))
 
 (defn reduce (func accum list)
   (if (empty? list)
@@ -20,7 +32,6 @@
     (cons (first list)
           (take (- num 1)
                 (rest list)))))
-
 
 (defn sum (list)
   (reduce + 0 list))

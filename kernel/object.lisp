@@ -15,3 +15,20 @@
 
 (defn class (x)
   (. x class))
+
+(defn = (x y)
+  (. x == y))
+
+(defn < (x y)
+  (. x < y))
+
+(defn > (x y)
+  (. x > y))
+
+(defn <= (x y)
+  (or (= x y)
+      (< x y)))
+
+(defn >= (x y)
+  (or (= x y)
+      (> x y)))
