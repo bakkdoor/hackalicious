@@ -26,7 +26,7 @@ else
     begin
       if ast = Lisp::Parser.parse_text(input)
         val = ast.eval(root_context)
-        puts val
+        puts val.inspect
       end
     rescue Interrupt
       exit(0)
