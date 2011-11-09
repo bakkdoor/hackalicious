@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+require(File.expand_path("../lib/lisp", __FILE__))
+
+if file = ARGV[1]
+  ast = Lisp::Parser.parse_file(file)
+  root_context = Lisp::RootContext.new
+  ast.eval(root_context)
+end
