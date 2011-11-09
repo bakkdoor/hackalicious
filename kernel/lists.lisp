@@ -27,11 +27,16 @@
             (rest list))))
 
 (defn take (num list)
-  (if (<= 0 num)
+  (if (<= num 0)
     []
     (cons (first list)
           (take (- num 1)
                 (rest list)))))
+
+(defn skip (num list)
+  (if (<= num 0)
+    list
+    (skip (- num 1) (rest list))))
 
 (defn sum (list)
   (reduce + 0 list))
