@@ -7,3 +7,4 @@ require "lib/function"
 require "lib/root_context"
 
 require "lib/parser/lisp.kpeg.rb"
+require "lib/parser"

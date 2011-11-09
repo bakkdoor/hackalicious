@@ -1,4 +1,4 @@
-class Lisp::Parser::Literal
+class Lisp::Parser::AST::Literal
   def eval(context)
     return @value
   end
