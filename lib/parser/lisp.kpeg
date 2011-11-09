@@ -26,35 +26,33 @@ NL = "\n"
 space = " " | "\t" | NL
 
 
-comment = ";" < (!NL .)* > NL { [:comment, text] }
+comment = ";" < (!NL .)* > NL ~comment(text)
 number = < /[1-9][0-9]*/ > { text }
-integer_lit = number:n { n.to_i }
-float_lit = number:w "." number:f { "#{w}.#{f}".to_f }
-true_lit = "true" { :true }
-false_lit = "false" { :false }
-nil_lit = "nil" { :nil }
-string_lit = '"' < (!'"' .)* > "\"" { text }
+integer_lit = number:n ~number(n.to_i)
+float_lit = number:w "." number:f ~number("#{w}.#{f}".to_f)
+true_lit = "true" ~literal(true)
+false_lit = "false" ~literal(false)
+nil_lit = "nil" ~literal(nil)
+string_lit = '"' < (!'"' .)* > '"' ~string(text)
 identifier = < (ALPHA | DIGIT | "_"| "-" | operator)+ > { text.to_sym }
 
 programm = comment:c programm:p { p }
-        # | sexp:s space* programm:p { p.unshift(s) }
-        | sexp:s { s }
+        | sexp:s space* programm:p ~expr_list(p << s)
+        | sexp:s ~expr_list([s])
 
 nested_expr = "(" expr:e ")" { e }
 
-quotation = "'" { :quote }
-          | "`" { :quasiquote }
-          | "~" { :unquote }
-          | "~@" { :unquote_splicing }
-
 sexp = space* sexp:s space* { s }
-     | quotation:q (sexp | atom):s { [q, s] }
-     | "(" space* ")" { [] }
-     | "(" (sexp | atom)+:s ")" { s }
+     | "~" (sexp | atom):s ~unquote(s)
+     | "~@" (sexp | atom):s ~splice_unquote(s)
+     | "(" space* ")" ~sexp([])
+     | "`(" space* ")" ~quote([])
+     | "`" sexp:s ~quote(s)
+     | "(" (sexp | atom)+:s ")" ~sexp(s)
 
 atom = space* atom:a space* { a }
      | literal
-     | identifier:i { [:ident, i] }
+     | identifier:i ~identifier(i)
 
 literal = integer_lit
         | float_lit
