@@ -25,7 +25,24 @@ module Lisp
         :empty? => BuiltinFunction.new { |list| list.empty? },
         :cons => BuiltinFunction.new { |item, list| list.unshift(item) },
         :if => IfThenElse.new,
-        :do => Do.new
+        :do => Do.new,
+        :or => Proc.new { |context, *args|
+          val = nil
+          args.each do |a|
+            val ||= a.eval(context)
+          end
+          val
+        },
+        :and => Proc.new { |context, *args|
+          val = true
+          args.each do |a|
+            val &&= a.eval(context)
+          end
+          val
+        },
+        :nil => nil,
+        :true => true,
+        :false => false
       }
     end
   end

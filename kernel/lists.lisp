@@ -9,10 +9,21 @@
 
 (defn reduce (func accum list)
   (if (empty? list)
-      accum
+    accum
     (reduce func
             (func accum (first list))
             (rest list))))
 
+(defn take (num list)
+  (if (<= 0 num)
+    []
+    (cons (first list)
+          (take (- num 1)
+                (rest list)))))
+
+
 (defn sum (list)
   (reduce + 0 list))
+
+(defn product (list)
+  (reduce * 1 list))
