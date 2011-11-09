@@ -1,5 +1,5 @@
 (defn size (list)
-  (call list "size"))
+  (. list size))
 
 (defn reduce (func accum list)
   (if (empty? list)
