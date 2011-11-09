@@ -7,3 +7,8 @@
 (print-twice (str ["hello" " " "world"]))
 
 (println (sum [1 2 3]))
+
+(if (empty? [1 2 3])
+  (println "foo")
+  (do (println "yup")
+      (println "cool")))
