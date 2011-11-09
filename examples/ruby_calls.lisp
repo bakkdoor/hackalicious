@@ -4,4 +4,4 @@
 
 (println (inspect "hello, world"))
 
-(println [1 2 3])
+(println (inspect [1 2 3]))
