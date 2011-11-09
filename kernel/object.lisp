@@ -32,3 +32,7 @@
 (defn >= (x y)
   (or (= x y)
       (> x y)))
+
+;; (defn negate (func)
+;;   (fn (x)
+;;     (not (func x))))

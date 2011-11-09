@@ -37,7 +37,8 @@ module Lisp
         },
         :nil => nil,
         :true => true,
-        :false => false
+        :false => false,
+        :not => BuiltinFunction.new { |obj| !obj }
       }
     end
   end

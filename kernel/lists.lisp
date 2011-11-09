@@ -38,6 +38,28 @@
     list
     (skip (- num 1) (rest list))))
 
+(defn reject (func list)
+  (if (empty? list)
+    []
+    (if (func (first list))
+      (reject func (rest list))
+      (cons (first list)
+            (reject func (rest list))))))
+
+(defn filter (func list)
+  (if (empty? list)
+    []
+    (if (not (func (first list)))
+      (filter func (rest list))
+      (cons (first list)
+            (filter func (rest list))))))
+
+;; (defn filter (func list)
+;;   (reject (fn (x)
+;;             (not (func x)))
+;;           list))
+
+
 (defn sum (list)
   (reduce + 0 list))
 
