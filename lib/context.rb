@@ -6,6 +6,8 @@ module Lisp
       end
     end
 
+    attr_reader :parent
+
     def initialize(parent = nil)
       @parent = parent
       @symbols = {}

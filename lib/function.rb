@@ -20,7 +20,7 @@ module Lisp
     def call(context, *args)
       call_context = Context.new(context)
       @args.each_with_index do |arg, i|
-        call_context.set(arg.name, args[i].eval(call_context))
+        call_context.set(arg.to_sym, args[i].eval(call_context))
       end
       @body.eval(call_context)
     end

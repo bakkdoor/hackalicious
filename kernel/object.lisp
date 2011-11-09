@@ -1,6 +1,3 @@
-(def Object (ruby_const "Object"))
-(def Class (ruby_const "Class"))
-
 (defn inspect (x)
   (. x inspect))
 
@@ -15,3 +12,6 @@
 
 (defn ->symbol (x)
   (. x to_sym))
+
+(defn class (x)
+  (. x class))

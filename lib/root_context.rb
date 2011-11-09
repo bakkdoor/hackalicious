@@ -7,15 +7,17 @@ module Lisp
 
     def setup_bindings
       @symbols = {
-        :+ => BuiltinFunction.new { |x, y| x + y },
-        :"-" => BuiltinFunction.new { |x,y| x - y },
-        :* => BuiltinFunction.new { |x,y| x * y },
-        :/ => BuiltinFunction.new { |x,y| x / y },
+        :+ => BuiltinFunction.new { |first, *rest| rest.inject(first) { |acc, x| acc + x } },
+        :"-" => BuiltinFunction.new { |first, *rest| rest.inject(first) { |acc, x| acc - x } },
+        :* => BuiltinFunction.new { |first, *rest| rest.inject(first) { |acc, x| acc * x } },
+        :/ => BuiltinFunction.new { |first, *rest| rest.inject(first) { |acc, x| acc / x } },
         :"=" => BuiltinFunction.new { |x, y| x == y },
         :call => BuiltinFunction.new { |obj, *args| obj.send(*args) },
         :"." => MethodCall.new,
         :ruby_const => BuiltinFunction.new { |const| Kernel.const_get(const) },
         :def => Define.new,
+        :def! => OuterDefine.new,
+        :"def!!" => OuterDefine.new(2),
         :fn => Fn.new,
         :defn => Defn.new,
         :first => BuiltinFunction.new { |list| list.first },

@@ -3,7 +3,7 @@ module Lisp
     def call(context, *args)
       name, *val = *args
       func = Fn.new.call(context, *val)
-      context.set(name.name, func)
+      context.set(name.to_sym, func)
     end
   end
 end
