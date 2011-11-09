@@ -2,9 +2,8 @@
 
 require(File.expand_path("../../lib/lisp", __FILE__))
 
-if file = ARGV[1]
+if file = ARGV[0]
   ast = Lisp::Parser.parse_file(file)
   root_context = Lisp::RootContext.new
-  puts ast.inspect
   ast.eval(root_context)
 end

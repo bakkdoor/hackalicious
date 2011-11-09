@@ -3,7 +3,6 @@ require "lib/parser/ast"
 module Lisp
   class Parser
     def self.parse_file(filename)
-      puts filename
       code = File.read(filename)
       p = Parser.new(code)
       p.parse

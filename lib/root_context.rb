@@ -1,5 +1,5 @@
 module Lisp
-  class RootContext
+  class RootContext < Context
     def initialize
       super(nil)
       setup_bindings
@@ -9,10 +9,10 @@ module Lisp
       @symbols = {
         :print => Function.new { |x| print(x) },
         :println => Function.new { |x| puts(x) },
-        :+ => Function.new { |x,y| puts(x + y) },
-        :"-" => Function.new { |x,y| puts(x - y) },
-        :* => Function.new { |x,y| puts(x * y) },
-        :/ => Function.new { |x,y| puts(x / y) },
+        :+ => Function.new { |x,y| x + y },
+        :"-" => Function.new { |x,y| x - y },
+        :* => Function.new { |x,y| x * y },
+        :/ => Function.new { |x,y| x / y },
         :def => Define.new
       }
     end
