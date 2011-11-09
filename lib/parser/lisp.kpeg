@@ -39,14 +39,17 @@ identifier = < (ALPHA | DIGIT | "_"| "-" | operator)+ > { text.to_sym }
 array_lit = "[" (sexp | atom)*:e "]" ~array_lit(e)
 
 programm = comment:c programm:p { p }
-        | sexp:s space* programm:p ~expr_list(p << s)
-        | sexp:s ~expr_list([s])
+        | exp:e space* programm:p ~expr_list(p << e)
+        | exp:e ~expr_list([e])
 
 nested_expr = "(" expr:e ")" { e }
 
-sexp = space* sexp:s space* { s }
-     | "(" space* ")" ~sexp([])
-     | "(" (sexp | atom)+:s ")" ~sexp(s)
+exp = space* exp:e space* { e }
+    | sexp
+    | atom
+
+sexp = "(" space* ")" ~sexp([])
+     | "(" exp+:s ")" ~sexp(s)
 
 atom = space* atom:a space* { a }
      | literal
