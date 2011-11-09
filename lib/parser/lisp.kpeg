@@ -52,7 +52,6 @@ sexp = space* sexp:s space* { s }
 
 atom = space* atom:a space* { a }
      | literal
-     | identifier:i ~identifier(i)
 
 literal = integer_lit
         | float_lit

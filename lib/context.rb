@@ -20,7 +20,7 @@ module Lisp
         return @parent.get(symbol)
       end
 
-      raise SymbolNotFound.new(symbol.name)
+      raise SymbolNotFound.new(symbol)
     end
 
     def has?(symbol)
