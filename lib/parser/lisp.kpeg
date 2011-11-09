@@ -36,7 +36,7 @@ true_lit = "true" ~literal(true)
 false_lit = "false" ~literal(false)
 nil_lit = "nil" ~literal(nil)
 string_lit = '"' < (!'"' .)* > '"' ~string(text)
-symbol_lit = ':' < (!' ' .)* > ~symbol(text.to_sym)
+symbol_lit = ':' identifier:i ~symbol(i)
 identifier = < (ALPHA | DIGIT | "_"| "-" | operator)+ > { text.to_sym }
 array_lit = "[" (sexp | atom)*:e "]" ~array_lit(e)
 
