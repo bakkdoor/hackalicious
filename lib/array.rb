@@ -1,5 +1,5 @@
 class Array
   def rest
-    [1..-1]
+    self[1..-1]
   end
 end
