@@ -9,7 +9,7 @@ module Lisp
       @symbols = {
         :print => BuiltinFunction.new { |x| print(x) },
         :println => BuiltinFunction.new { |x| puts(x) },
-        :+ => BuiltinFunction.new { |*args| args.inject(0){ |sum,val| sum + val } },
+        :+ => BuiltinFunction.new { |x, y| puts(x); puts(y); x + y },
         :str => BuiltinFunction.new { |*args| args.inject(""){ |sum,val| sum + val.to_s } },
         :"-" => BuiltinFunction.new { |x,y| x - y },
         :* => BuiltinFunction.new { |x,y| x * y },

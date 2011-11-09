@@ -28,9 +28,9 @@ space = " " | "\t" | NL
 
 
 comment = ";" < (!NL .)* > NL ~comment(text)
-number = < /[1-9][0-9]*/ > { text }
-integer_lit = number:n ~number(n.to_i)
-float_lit = number:w "." number:f ~number("#{w}.#{f}".to_f)
+number = < /[0-9]+/ > { text }
+integer_lit = number:n ~literal(n.to_i)
+float_lit = number:w "." number:f ~literal("#{w}.#{f}".to_f)
 true_lit = "true" ~literal(true)
 false_lit = "false" ~literal(false)
 nil_lit = "nil" ~literal(nil)

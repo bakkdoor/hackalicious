@@ -1,3 +1,4 @@
+require "lib/parser/ast/comment"
 require "lib/parser/ast/identifier"
 require "lib/parser/ast/literal"
 require "lib/parser/ast/sexp"
