@@ -18,6 +18,7 @@ module Lisp
         :ruby_const => BuiltinFunction.new { |const| Kernel.const_get(const) },
         :def => Define.new,
         :fn => Fn.new,
+        :defn => Defn.new,
         :first => BuiltinFunction.new { |list| list.first },
         :rest => BuiltinFunction.new { |list| list.rest },
         :empty? => BuiltinFunction.new { |list| list.empty? },
