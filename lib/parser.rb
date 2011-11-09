@@ -4,7 +4,11 @@ module Lisp
   class Parser
     def self.parse_file(filename)
       code = File.read(filename)
-      p = Parser.new(code)
+      parse_text(code)
+    end
+
+    def self.parse_text(text)
+      p = Parser.new(text)
       p.parse
       p.result
     end

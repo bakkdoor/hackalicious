@@ -21,6 +21,7 @@ module Lisp
         :first => BuiltinFunction.new { |list| list.first },
         :rest => BuiltinFunction.new { |list| list.rest },
         :empty? => BuiltinFunction.new { |list| list.empty? },
+        :cons => BuiltinFunction.new { |item, list| list.unshift(item) },
         :if => IfThenElse.new,
         :do => Do.new
       }

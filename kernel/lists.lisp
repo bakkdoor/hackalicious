@@ -1,3 +1,9 @@
+(defn map (func list)
+  (if (empty? list)
+    []
+    (cons (func (first list))
+          (map func (rest list)))))
+
 (defn size (list)
   (. list size))
 
