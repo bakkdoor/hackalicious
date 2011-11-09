@@ -13,7 +13,7 @@ module Lisp
         :/ => BuiltinFunction.new { |x,y| x / y },
         :"=" => BuiltinFunction.new { |x, y| x == y },
         :call => BuiltinFunction.new { |obj, *args| obj.send(*args) },
-        :"." => MethodCall.new
+        :"." => MethodCall.new,
         :ruby_const => BuiltinFunction.new { |const| Kernel.const_get(const) },
         :def => Define.new,
         :fn => Fn.new,
