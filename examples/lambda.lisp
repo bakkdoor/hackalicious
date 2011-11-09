@@ -1,7 +1,7 @@
 (def print-twice
-     (lambda (x)
-       (do (println x)
-           (println x))))
+     (fn (x)
+       (println x)
+       (println x)))
 
 (print-twice "hello")
-(print-twice (+ "hello" " " "world"))
+(print-twice (str "hello" " " "world"))

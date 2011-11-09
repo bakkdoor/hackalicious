@@ -7,13 +7,15 @@ module Lisp
 
     def setup_bindings
       @symbols = {
-        :print => Function.new { |x| print(x) },
-        :println => Function.new { |x| puts(x) },
-        :+ => Function.new { |x,y| x + y },
-        :"-" => Function.new { |x,y| x - y },
-        :* => Function.new { |x,y| x * y },
-        :/ => Function.new { |x,y| x / y },
-        :def => Define.new
+        :print => BuiltinFunction.new { |x| print(x) },
+        :println => BuiltinFunction.new { |x| puts(x) },
+        :+ => BuiltinFunction.new { |*args| args.inject(0){ |sum,val| sum + val } },
+        :str => BuiltinFunction.new { |*args| args.inject(""){ |sum,val| sum + val.to_s } },
+        :"-" => BuiltinFunction.new { |x,y| x - y },
+        :* => BuiltinFunction.new { |x,y| x * y },
+        :/ => BuiltinFunction.new { |x,y| x / y },
+        :def => Define.new,
+        :fn => Fn.new
       }
     end
   end

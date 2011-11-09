@@ -1,5 +1,5 @@
 module Lisp
-  class Function
+  class BuiltinFunction
     def initialize(&block)
       @block = block
     end
@@ -8,6 +8,21 @@ module Lisp
       vals = args.map{ |a| a.eval(context) }
       # call the block
       @block.call(*vals)
+    end
+  end
+
+  class Function
+    def initialize(args, body)
+      @args = args
+      @body = body
+    end
+
+    def call(context, *args)
+      call_context = Context.new(context)
+      @args.each_with_index do |arg, i|
+        call_context.set(arg.name, args[i].eval(call_context))
+      end
+      @body.eval(call_context)
     end
   end
 end

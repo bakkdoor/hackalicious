@@ -3,6 +3,7 @@ require "kpeg"
 
 require "lib/context"
 require "lib/define"
+require "lib/fn"
 require "lib/function"
 require "lib/root_context"
 
