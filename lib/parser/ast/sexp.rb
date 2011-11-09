@@ -13,4 +13,12 @@ class Lisp::Parser::AST::Sexp
   def each(&block)
     @expressions.each(&block)
   end
+
+  def first
+    @expressions.first
+  end
+
+  def rest
+    @expressions[1..-1]
+  end
 end

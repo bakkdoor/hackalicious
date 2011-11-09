@@ -11,6 +11,7 @@
 %% string = ast Literal(value)
 %% literal = ast Literal(value)
 %% identifier = ast Identifier(name)
+%% array_lit = ast ArrayLiteral(expressions)
 %% expr_list = ast ExpressionList(expressions)
 %% sexp = ast Sexp(expressions)
 %% quote = ast Quote(expression)
@@ -35,6 +36,7 @@ false_lit = "false" ~literal(false)
 nil_lit = "nil" ~literal(nil)
 string_lit = '"' < (!'"' .)* > '"' ~string(text)
 identifier = < (ALPHA | DIGIT | "_"| "-" | operator)+ > { text.to_sym }
+array_lit = "[" (sexp | atom)*:e "]" ~array_lit(e)
 
 programm = comment:c programm:p { p }
         | sexp:s space* programm:p ~expr_list(p << s)
@@ -43,21 +45,19 @@ programm = comment:c programm:p { p }
 nested_expr = "(" expr:e ")" { e }
 
 sexp = space* sexp:s space* { s }
-     | "~" (sexp | atom):s ~unquote(s)
-     | "~@" (sexp | atom):s ~splice_unquote(s)
      | "(" space* ")" ~sexp([])
-     | "`(" space* ")" ~quote([])
-     | "`" sexp:s ~quote(s)
      | "(" (sexp | atom)+:s ")" ~sexp(s)
 
 atom = space* atom:a space* { a }
      | literal
 
 literal = integer_lit
+        | array_lit
         | float_lit
         | true_lit
         | false_lit
         | nil_lit
         | string_lit
+        | identifier:i ~identifier(i)
 
 root = programm:p { p }
