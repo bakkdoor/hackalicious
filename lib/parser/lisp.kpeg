@@ -1,0 +1,66 @@
+#require "kpeg"
+
+%% name = Lisp::Parser
+%% {
+  attr_accessor :something_cool
+}
+
+%% ast-location = ::Lisp::Parser::AST
+%% comment = ast Comment(text)
+%% number = ast Literal(value)
+%% string = ast Literal(value)
+%% literal = ast Literal(value)
+%% identifier = ast Identifier(name)
+%% expr_list = ast ExpressionList(expressions)
+%% sexp = ast Sexp(expressions)
+%% quote = ast Quote(expression)
+%% unquote = ast Unquote(expression)
+%% splice_unquote = ast SpliceUnquote(expression)
+
+ALPHA = /[A-Za-z]/
+DIGIT = /[0-9]/
+operator = "+" | "!" | "?" | "=" | "_" | "-" | ":" | "*" | "/"
+lp = "("
+rp = ")"
+NL = "\n"
+space = " " | "\t" | NL
+
+
+comment = ";" < (!NL .)* > NL { [:comment, text] }
+number = < /[1-9][0-9]*/ > { text }
+integer_lit = number:n { n.to_i }
+float_lit = number:w "." number:f { "#{w}.#{f}".to_f }
+true_lit = "true" { :true }
+false_lit = "false" { :false }
+nil_lit = "nil" { :nil }
+string_lit = '"' < (!'"' .)* > "\"" { text }
+identifier = < (ALPHA | DIGIT | "_"| "-" | operator)+ > { text.to_sym }
+
+programm = comment:c programm:p { p }
+        # | sexp:s space* programm:p { p.unshift(s) }
+        | sexp:s { s }
+
+nested_expr = "(" expr:e ")" { e }
+
+quotation = "'" { :quote }
+          | "`" { :quasiquote }
+          | "~" { :unquote }
+          | "~@" { :unquote_splicing }
+
+sexp = space* sexp:s space* { s }
+     | quotation:q (sexp | atom):s { [q, s] }
+     | "(" space* ")" { [] }
+     | "(" (sexp | atom)+:s ")" { s }
+
+atom = space* atom:a space* { a }
+     | literal
+     | identifier:i { [:ident, i] }
+
+literal = integer_lit
+        | float_lit
+        | true_lit
+        | false_lit
+        | nil_lit
+        | string_lit
+
+root = programm:p { p }
