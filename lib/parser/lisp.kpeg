@@ -1,15 +1,10 @@
 #require "kpeg"
 
 %% name = Lisp::Parser
-%% {
-  attr_accessor :something_cool
-}
 
 %% ast-location = ::Lisp::Parser::AST
 %% comment = ast Comment(text)
 %% number = ast Literal(value)
-%% string = ast Literal(value)
-%% symbol = ast Literal(value)
 %% literal = ast Literal(value)
 %% identifier = ast Identifier(name)
 %% array_lit = ast ArrayLiteral(expressions)
@@ -22,8 +17,6 @@
 ALPHA = /[A-Za-z]/
 DIGIT = /[0-9]/
 operator = "." | "+" | "!" | "?" | "=" | "_" | "-" | ":" | "*" | "/" | ">" | "<"
-lp = "("
-rp = ")"
 NL = "\n"
 space = " " | "\t" | NL
 
@@ -35,8 +28,8 @@ float_lit = number:w "." number:f ~literal("#{w}.#{f}".to_f)
 true_lit = "true" ~literal(true)
 false_lit = "false" ~literal(false)
 nil_lit = "nil" ~literal(nil)
-string_lit = '"' < (!'"' .)* > '"' ~string(text)
-symbol_lit = ':' identifier:i ~symbol(i)
+string_lit = '"' < (!'"' .)* > '"' ~literal(text)
+symbol_lit = ':' identifier:i ~literal(i)
 identifier = < (ALPHA | DIGIT | operator)+ > { text.to_sym }
 array_lit = "[" (sexp | atom)*:e "]" ~array_lit(e)
 
