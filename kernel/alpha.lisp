@@ -11,3 +11,7 @@
 ;; (map (fn (c)
 ;;          (def!! c (ruby_const c)))
 ;;      RubyClasses)
+
+(defn negate (func)
+  (fn (x)
+    (not (func x))))
