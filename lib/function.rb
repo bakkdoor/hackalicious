@@ -12,17 +12,22 @@ module Lisp
   end
 
   class Function
-    def initialize(args, body)
+    def initialize(context, args, body)
+      @context = context
       @args = args
       @body = body
     end
 
     def call(context, *args)
-      call_context = Context.new(context)
+      call_context = Context.new(@context)
       @args.each_with_index do |arg, i|
-        call_context.set(arg.to_sym, args[i].eval(call_context))
+        call_context.set(arg.to_sym, args[i].eval(context))
       end
       @body.eval(call_context)
+    end
+
+    def inspect
+      "(fn (#{@args.map(&:name).join(", ")})\n #{@body.inspect})"
     end
   end
 end
