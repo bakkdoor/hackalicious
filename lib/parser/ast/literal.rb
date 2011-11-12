@@ -6,4 +6,8 @@ class Lisp::Parser::AST::Literal
   def to_sym
     @value.to_sym
   end
+
+  def inspect
+    @value.inspect
+  end
 end

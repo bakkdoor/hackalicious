@@ -9,4 +9,8 @@ class Lisp::Parser::AST::ExpressionList
     end
     return val
   end
+
+  def inspect
+    @expressions.map(&:inspect)
+  end
 end

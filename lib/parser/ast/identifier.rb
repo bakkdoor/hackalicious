@@ -6,4 +6,8 @@ class Lisp::Parser::AST::Identifier
   def to_sym
     @name
   end
+
+  def inspect
+    @name
+  end
 end

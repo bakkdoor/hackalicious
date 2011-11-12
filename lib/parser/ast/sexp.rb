@@ -21,4 +21,8 @@ class Lisp::Parser::AST::Sexp
   def rest
     @expressions[1..-1]
   end
+
+  def inspect
+    "(" + @expressions.map(&:inspect).join(" ") + ")"
+  end
 end

@@ -4,4 +4,8 @@ class Lisp::Parser::AST::ArrayLiteral
       e.eval(context)
     end
   end
+
+  def inspect
+    "[" + @expressions.map(&:inspect).join(" ") + "]"
+  end
 end
