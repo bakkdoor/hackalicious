@@ -16,3 +16,5 @@ require "lib/parser"
 
 # extensions
 require "lib/array"
+
+require "lib/compiler"

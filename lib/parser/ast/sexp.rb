@@ -2,9 +2,9 @@ class Lisp::Parser::AST::Sexp
   include Enumerable
 
   def eval(context)
-    method_name, *args = @expressions
-    method = method_name.eval(context)
-    method.call(context, *args)
+    function_name, *args = @expressions
+    function = function_name.eval(context)
+    function.call(context, *args)
   end
   def [] index
     @expressions[index]
@@ -24,5 +24,14 @@ class Lisp::Parser::AST::Sexp
 
   def inspect
     "(" + @expressions.map(&:inspect).join(" ") + ")"
+  end
+
+  def bytecode(g)
+    function_name, *args = @expressions
+
+    # always send to self
+    function_name.bytecode(g)
+    args.each{ |a| a.bytecode(g) }
+    g.send :call, args.size, false
   end
 end

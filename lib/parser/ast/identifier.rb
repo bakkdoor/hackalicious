@@ -10,4 +10,8 @@ class Lisp::Parser::AST::Identifier
   def inspect
     @name
   end
+
+  def bytecode(g)
+    Rubinius::AST::LocalVariableAccess.new(@line, @name).bytecode(g)
+  end
 end

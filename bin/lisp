@@ -4,35 +4,42 @@ require(File.expand_path("../../lib/lisp", __FILE__))
 
 root_context = Lisp::RootContext.new
 
-Dir.glob(File.expand_path("../../kernel/*.lisp", __FILE__)).each do |f|
-  Lisp::Parser.parse_file(f).eval(root_context)
-end
-
-# handle SIGINT
-trap "INT" do
-  puts "Quitting."
-  exit(0)
-end
 
 if file = ARGV[0]
-  ast = Lisp::Parser.parse_file(file)
-  # puts ast.inspect
-  ast.eval(root_context)
-else
-  # start the repl
-  puts "Welcome to the hackalicious Lisp REPL."
-  print ">> "
-  while (input = gets) && input !~ /quit/
-    begin
-      if ast = Lisp::Parser.parse_text(input)
-        val = ast.eval(root_context)
-        puts val.inspect
-      end
-    rescue Interrupt
-      exit(0)
-    rescue Exception => e
-      puts e.message
-    end
-    print ">> "
-  end
+  verbose = ARGV.include? "-v"
+  Lisp::Compiler.compile_lisp_file(file, nil, 1, verbose)
+#  Lisp::CodeLoader.load_file(file)
 end
+
+# Dir.glob(File.expand_path("../../kernel/*.lisp", __FILE__)).each do |f|
+#   Lisp::Parser.parse_file(f).eval(root_context)
+# end
+
+# # handle SIGINT
+# trap "INT" do
+#   puts "Quitting."
+#   exit(0)
+# end
+
+# if file = ARGV[0]
+#   ast = Lisp::Parser.parse_file(file)
+#   # puts ast.inspect
+#   ast.eval(root_context)
+# else
+#   # start the repl
+#   puts "Welcome to the hackalicious Lisp REPL."
+#   print ">> "
+#   while (input = gets) && input !~ /quit/
+#     begin
+#       if ast = Lisp::Parser.parse_text(input)
+#         val = ast.eval(root_context)
+#         puts val.inspect
+#       end
+#     rescue Interrupt
+#       exit(0)
+#     rescue Exception => e
+#       puts e.message
+#     end
+#     print ">> "
+#   end
+# end

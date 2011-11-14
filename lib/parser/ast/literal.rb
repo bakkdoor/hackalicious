@@ -10,4 +10,8 @@ class Lisp::Parser::AST::Literal
   def inspect
     @value.inspect
   end
+
+  def bytecode(g)
+    g.push_literal @value
+  end
 end

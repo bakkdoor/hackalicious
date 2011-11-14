@@ -3,16 +3,16 @@
 %% name = Lisp::Parser
 
 %% ast-location = ::Lisp::Parser::AST
-%% comment = ast Comment(text)
-%% number = ast Literal(value)
-%% literal = ast Literal(value)
-%% identifier = ast Identifier(name)
-%% array_lit = ast ArrayLiteral(expressions)
-%% expr_list = ast ExpressionList(expressions)
-%% sexp = ast Sexp(expressions)
-%% quote = ast Quote(expression)
-%% unquote = ast Unquote(expression)
-%% splice_unquote = ast SpliceUnquote(expression)
+%% comment = ast Comment(line, text)
+%% number = ast Literal(line, value)
+%% literal = ast Literal(line, value)
+%% identifier = ast Identifier(line, name)
+%% array_lit = ast ArrayLiteral(line, expressions)
+%% expr_list = ast ExpressionList(line, expressions)
+%% sexp = ast Sexp(line, expressions)
+%% quote = ast Quote(line, expression)
+%% unquote = ast Unquote(line, expression)
+%% splice_unquote = ast SpliceUnquote(line, expression)
 
 ALPHA = /[A-Za-z]/
 DIGIT = /[0-9]/
@@ -21,21 +21,21 @@ NL = "\n"
 space = " " | "\t" | NL
 
 
-comment = ";" < (!NL .)* > NL ~comment(text)
+comment = ";" < (!NL .)* > NL ~comment(0, text)
 number = < /[0-9]+/ > { text }
-integer_lit = number:n ~literal(n.to_i)
-float_lit = number:w "." number:f ~literal("#{w}.#{f}".to_f)
-true_lit = "true" ~literal(true)
-false_lit = "false" ~literal(false)
-nil_lit = "nil" ~literal(nil)
-string_lit = '"' < (!'"' .)* > '"' ~literal(text)
-symbol_lit = ':' identifier:i ~literal(i)
+integer_lit = number:n ~literal(0, n.to_i)
+float_lit = number:w "." number:f ~literal(0, "#{w}.#{f}".to_f)
+true_lit = "true" ~literal(0, true)
+false_lit = "false" ~literal(0, false)
+nil_lit = "nil" ~literal(0, nil)
+string_lit = '"' < (!'"' .)* > '"' ~literal(0, text)
+symbol_lit = ':' identifier:i ~literal(0, i)
 identifier = < (ALPHA | DIGIT | operator)+ > { text.to_sym }
-array_lit = "[" (sexp | atom)*:e "]" ~array_lit(e)
+array_lit = "[" (sexp | atom)*:e "]" ~array_lit(0, e)
 
 programm = comment:c programm:p { p }
-        | exp:e space* programm:p ~expr_list(p << e)
-        | exp:e ~expr_list([e])
+        | exp:e space* programm:p ~expr_list(0, p << e)
+        | exp:e ~expr_list(0, [e])
 
 nested_expr = "(" expr:e ")" { e }
 
@@ -43,8 +43,8 @@ exp = space* exp:e space* { e }
     | sexp
     | atom
 
-sexp = "(" space* ")" ~sexp([])
-     | "(" exp+:s ")" ~sexp(s)
+sexp = "(" space* ")" ~sexp(0, [])
+     | "(" exp+:s ")" ~sexp(0, s)
 
 atom = space* atom:a space* { a }
      | literal
@@ -57,6 +57,6 @@ literal = integer_lit
         | nil_lit
         | string_lit
         | symbol_lit
-        | identifier:i ~identifier(i)
+        | identifier:i ~identifier(0, i)
 
 root = programm:p { p }

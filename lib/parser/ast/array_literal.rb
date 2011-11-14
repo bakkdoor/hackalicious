@@ -8,4 +8,8 @@ class Lisp::Parser::AST::ArrayLiteral
   def inspect
     "[" + @expressions.map(&:inspect).join(" ") + "]"
   end
+
+  def bytecode(g)
+    Rubinius::AST::ArrayLiteral.new(@expressions)
+  end
 end
