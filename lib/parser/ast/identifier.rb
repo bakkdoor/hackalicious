@@ -12,6 +12,11 @@ class Lisp::Parser::AST::Identifier
   end
 
   def bytecode(g)
-    Rubinius::AST::LocalVariableAccess.new(@line, @name).bytecode(g)
+    case @name
+    when /^[A-Z]/
+      Rubinius::AST::ConstantAccess.new(@line, @name).bytecode(g)
+    else
+      Rubinius::AST::LocalVariableAccess.new(@line, @name).bytecode(g)
+    end
   end
 end

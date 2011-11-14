@@ -2,13 +2,12 @@
 
 require(File.expand_path("../../lib/lisp", __FILE__))
 
-root_context = Lisp::RootContext.new
-
+# root_context = Lisp::RootContext.new
 
 if file = ARGV[0]
   verbose = ARGV.include? "-v"
   Lisp::Compiler.compile_lisp_file(file, nil, 1, verbose)
-#  Lisp::CodeLoader.load_file(file)
+  Lisp::CodeLoader.load_file(file)
 end
 
 # Dir.glob(File.expand_path("../../kernel/*.lisp", __FILE__)).each do |f|

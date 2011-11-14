@@ -1,8 +1,13 @@
 module Lisp
   class Define
-    def call(context, *args)
-      value = args[1].eval(context)
-      context.set(args[0].to_sym, value)
+    def initialize(line, ident, value)
+      @line = line
+      @ident = ident
+      @value = value
+    end
+
+    def bytecode(g)
+      Rubinius::AST::LocalVariableAssignment.new(0, @ident.name, @value).bytecode(g)
     end
   end
 
@@ -14,7 +19,6 @@ module Lisp
       parent = nil
       @steps.times do
         parent = context.parent
-        puts parent
         if parent
           value = args[1].eval(context)
           parent.set(args[0].to_sym, value)
