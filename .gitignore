@@ -1,2 +1,3 @@
 lib/parser/lisp.kpeg.rb
 *.rbx
+*.lispc
