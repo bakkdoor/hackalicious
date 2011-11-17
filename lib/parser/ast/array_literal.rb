@@ -10,6 +10,6 @@ class Lisp::Parser::AST::ArrayLiteral
   end
 
   def bytecode(g)
-    Rubinius::AST::ArrayLiteral.new(@expressions)
+    Rubinius::AST::ArrayLiteral.new(0, @expressions)
   end
 end
