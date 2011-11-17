@@ -1,11 +1,6 @@
 class Lisp::Parser::AST::Sexp
   include Enumerable
 
-  def eval(context)
-    function_name, *args = @expressions
-    function = function_name.eval(context)
-    function.call(context, *args)
-  end
   def [] index
     @expressions[index]
   end
